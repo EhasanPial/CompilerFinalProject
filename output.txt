@@ -1,5 +1,0 @@
-(x) Variable Declared
-
-Value of the Variable (y)= 5
-(p) Variable Declared
-(qtr) Variable Declared

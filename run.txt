@@ -1,0 +1,3 @@
+bison -d pialParser.y
+flex MainFile.l
+gcc lex.yy.c pialParser.tab.c -o abc

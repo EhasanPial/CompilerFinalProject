@@ -1,0 +1,11 @@
+:int _main_
+-->
+    :int x  ;;
+    :int y:=5,p,qtr;; 
+
+    y plus= 1 ;;
+    y minus= 1;;
+
+    x := y;;
+
+<--

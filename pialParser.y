@@ -19,9 +19,16 @@
 	void vari (array *p, char *s, int n);
 	void valassig (char *s, int n);
 	int check(char *key);
-	  int count = 1;
-	// int q=0,prev=0;
-	// float fl;
+	int count = 1;
+	struct node {
+     	   array data;
+    struct node *next;
+    
+	}node ;
+	/* Initialize nodes */
+	struct node *head = NULL;
+	struct node *tail = NULL ;
+ 
 %}
 
 %union 
@@ -89,6 +96,7 @@ body:  body statement |
 statement: declaration SEMICOLON   {}
 		|  SEMICOLON 
 		| expression SEMICOLON 	   {}
+		
 		;
 declaration: TYPE id1  ;
 
@@ -101,7 +109,7 @@ id1 : id1 ',' VAR ASSING NUM	 {
 					printf("\n(%s) Variable  DEclared Before \n",$3);
 				}
 				else
-				{ 
+				{   
 					valassig ($3,$5);
 					printf("\nValue of the Variable (%s)= %d\n",$3,$5);
 				}
@@ -114,8 +122,8 @@ id1 : id1 ',' VAR ASSING NUM	 {
 						else
 						{
 							printf("(%s) Variable Declared\n",$3);
-							vari(&store[count],$3, count);
-							count++;
+							vari(&store[count],$3, 0);
+							//count++;
 						}
 			}
 	| VAR ASSING NUM	 {
@@ -137,8 +145,8 @@ id1 : id1 ',' VAR ASSING NUM	 {
 						else
 						{
 							printf("(%s) Variable Declared\n",$1);
-							vari(&store[count],$1, count);
-							count++;
+							vari(&store[count],$1, 0);
+							//count++;
 						}
 			} 
 ;
@@ -146,30 +154,54 @@ id1 : id1 ',' VAR ASSING NUM	 {
 
 expression: NUM	{ $$ = $1; 	}
 
-			| VAR 	{	int i = 1;
-						char *name = store[i].str;
-						while (name) 
+			| VAR 	{	
+						// int i = 1;
+						// char *name = store[i].str;
+						// while (name) 
+						// {
+						// 	if (strcmp(name, $1) == 0)
+						// 	{
+						// 		$$ = (int)store[i].n;
+						// 		//printf("%s -> %d\n", $1, (int)store[i].n ) ;
+						// 		break;
+						// 	}
+						// 		name = store[++i].str;
+						// }
+
+						struct node* temp = head;
+						while(temp != NULL)
 						{
-							if (strcmp(name, $1) == 0)
+							if(strcmp(temp->data.str,$1) == 0)
 							{
-								$$ = (int)store[i].n;
-								//printf("%s -> %d\n", $1, (int)store[i].n ) ;
+								$$ = temp->data.n;
 								break;
 							}
-								name = store[++i].str;
+							temp = temp->next;
 						}
 					}
-			| VAR ASSING VAR 	{	int i = 1;
-									char *name = store[i].str;
-									while (name) 
+			| VAR ASSING VAR 	{	
+									// int i = 1;
+									// char *name = store[i].str;
+									// while (name) 
+									// {
+									// 	if (strcmp(name, $3) == 0)
+									// 	{
+									// 		//printf("%s -> %d\n", $3, (int)store[i].n ) ;
+									// 		valassig ($1,(int)store[i].n);
+									// 		break;
+									// 	}
+									// 	name = store[++i].str;
+									// }
+
+									struct node* temp = head;
+									while(temp != NULL)
 									{
-										if (strcmp(name, $3) == 0)
+										if(strcmp(temp->data.str,$3) == 0)
 										{
-											//printf("%s -> %d\n", $3, (int)store[i].n ) ;
-											valassig ($1,(int)store[i].n);
+											valassig ($1,temp->data.n);
 											break;
 										}
-										name = store[++i].str;
+										temp = temp->next;
 									}
 								}					
 			
@@ -207,8 +239,8 @@ expression: NUM	{ $$ = $1; 	}
 			
 			| expression GREATER_THEN expression	{ $$ = $1 > $3; }
 			| expression NOTEQUAL expression	{ $$ = $1 != $3; }
-			| expression INCREMENT expression	{ $$ = $1++; }
-			| expression DECREMENT expression	{ $$ = $1--; }
+			| expression INCREMENT 	{ $$ = $1++; }
+			| expression DECREMENT 	{ $$ = $1--; }
 			
 			| FIRST_OPEN expression FIRST_END		{ $$ = $2;	}
 			| SIN expression 			{printf("Value of Sin(%d) is %lf\n",$2,sin($2*3.1416/180)); $$=sin($2*3.1416/180);}
@@ -228,33 +260,76 @@ expression: NUM	{ $$ = $1; 	}
 
 void vari(array *p, char *s, int n)
 				{
-				  p->str = s; 
-				  p->n = n; // variable number
+				//   p->str = s; 
+				//   p->n = n; // variable number
+
+				  struct node* newData = malloc(sizeof(node));
+				  newData->data.str = s;
+				  newData->data.n = n;
+				  newData->next = NULL;
+
+				  if (head == NULL)
+				  {
+				    head = newData;
+				    tail = newData;
+				  }
+				  else
+				  {
+				    tail->next = newData;
+				    tail = newData;
+				  }
+
+
+
 				}
 void valassig(char *s, int num)
 			{
-				    int i = 1;
-				    char *name = store[i].str;
-				    while (name) {
-				        if (strcmp(name, s) == 0){
-					store[i].n=num;
+				//     int i = 1;
+				//     char *name = store[i].str;
+				//     while (name) {
+				//         if (strcmp(name, s) == 0){
+				// 	store[i].n=num;
+				// 		break;
+				//             }
+				// 	name = store[++i].str;
+				// }
+
+				struct node* temp = head;
+				while(temp != NULL)
+				{
+					if(strcmp(temp->data.str,s)==0)
+					{
+						temp->data.n=num;
 						break;
-				            }
-					name = store[++i].str;
+					}
+					temp = temp->next;
 				}
+
+
 			}
 
 int check(char *key)
 			{
-			    int i = 1;
-			    char *name = store[i].str;
-			    while (name) {
-				        if (strcmp(name, key) == 0){
-						return i;
+			    // int i = 1;
+			    // char *name = store[i].str;
+			    // while (name) {
+				//         if (strcmp(name, key) == 0){
+				// 		return i;
+				// 	}
+				// 		name = store[++i].str;
+				// }
+			    // return 0;
+
+				struct node* temp = head;
+				while(temp != NULL)
+				{
+					if(strcmp(temp->data.str,key)==0)
+					{
+						return temp->data.n;
 					}
-						name = store[++i].str;
+					temp = temp->next;
 				}
-			    return 0;
+				return 0;
 			}
 
 void yyerror(char *s){

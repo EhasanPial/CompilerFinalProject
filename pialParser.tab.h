@@ -97,7 +97,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 28 "pialParser.y"
+#line 35 "pialParser.y"
 
 	 int number;
      char *string;

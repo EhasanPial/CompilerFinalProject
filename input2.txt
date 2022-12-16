@@ -7,5 +7,21 @@
     y minus= 1;;
 
     x := y;;
+    x plus= 1;;
+    x minus= 1;;
+    x plus+;;
+    x minus-;;
+    y plus+;;
+    y minus-;;
+    x plus= y;;
+    x minus= y;;
+    x multi= y;;
+    x div= y;;
+    p := x + y;;
+    qtr := x * y;;
+
+  
+
+   
 
 <--

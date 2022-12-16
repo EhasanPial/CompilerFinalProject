@@ -90,13 +90,20 @@
 	void vari (array *p, char *s, int n);
 	void valassig (char *s, int n);
 	int check(char *key);
-	  int count = 1;
-	// int q=0,prev=0;
-	// float fl;
+	int count = 1;
+	struct node {
+     	   array data;
+    struct node *next;
+    
+	}node ;
+	/* Initialize nodes */
+	struct node *head = NULL;
+	struct node *tail = NULL ;
+ 
 
 
 /* Line 189 of yacc.c  */
-#line 100 "pialParser.tab.c"
+#line 107 "pialParser.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -181,7 +188,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 28 "pialParser.y"
+#line 35 "pialParser.y"
 
 	 int number;
      char *string;
@@ -189,7 +196,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 193 "pialParser.tab.c"
+#line 200 "pialParser.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -201,7 +208,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 205 "pialParser.tab.c"
+#line 212 "pialParser.tab.c"
 
 #ifdef short
 # undef short
@@ -425,7 +432,7 @@ union yyalloc
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  44
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  82
+#define YYNSTATES  80
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
@@ -478,8 +485,8 @@ static const yytype_uint8 yyprhs[] =
        0,     0,     3,     9,    10,    13,    14,    17,    19,    22,
       25,    27,    29,    31,    33,    35,    37,    43,    47,    51,
       53,    55,    57,    61,    65,    69,    73,    77,    81,    85,
-      89,    93,    97,   101,   105,   109,   113,   117,   121,   125,
-     128,   131,   134,   137,   140
+      89,    93,    97,   101,   105,   109,   113,   116,   119,   123,
+     126,   129,   132,   135,   138
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
@@ -496,20 +503,20 @@ static const yytype_int8 yyrhs[] =
       -1,    59,    27,    59,    -1,    59,    28,    59,    -1,    59,
       29,    59,    -1,    59,    50,    59,    -1,    59,    19,    59,
       -1,    59,    24,    59,    -1,    59,    23,    59,    -1,    59,
-      20,    59,    -1,    59,    21,    59,    -1,    59,    22,    59,
-      -1,    33,    59,    34,    -1,    39,    59,    -1,    40,    59,
-      -1,    41,    59,    -1,    42,    59,    -1,    38,    59,    -1,
-      43,    33,     4,    51,     4,    34,    -1
+      20,    59,    -1,    59,    21,    -1,    59,    22,    -1,    33,
+      59,    34,    -1,    39,    59,    -1,    40,    59,    -1,    41,
+      59,    -1,    42,    59,    -1,    38,    59,    -1,    43,    33,
+       4,    51,     4,    34,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    84,    84,    84,    85,    85,    89,    90,    91,    93,
-      96,    96,    96,    96,    96,    96,    98,   109,   121,   133,
-     147,   149,   162,   176,   178,   180,   184,   192,   193,   194,
-     195,   197,   205,   206,   208,   209,   210,   211,   213,   214,
-     216,   218,   219,   220,   221
+       0,    91,    91,    91,    92,    92,    96,    97,    98,   101,
+     104,   104,   104,   104,   104,   104,   106,   117,   129,   141,
+     155,   157,   182,   208,   210,   212,   216,   224,   225,   226,
+     227,   229,   237,   238,   240,   241,   242,   243,   245,   246,
+     248,   250,   251,   252,   253
 };
 #endif
 
@@ -560,7 +567,7 @@ static const yytype_uint8 yyr2[] =
        0,     2,     5,     0,     2,     0,     2,     1,     2,     2,
        1,     1,     1,     1,     1,     1,     5,     3,     3,     1,
        1,     1,     3,     3,     3,     3,     3,     3,     3,     3,
-       3,     3,     3,     3,     3,     3,     3,     3,     3,     2,
+       3,     3,     3,     3,     3,     3,     2,     2,     3,     2,
        2,     2,     2,     2,     6
 };
 
@@ -573,11 +580,10 @@ static const yytype_uint8 yydefact[] =
        0,     5,     0,    21,    20,     0,     2,     7,     0,     0,
        0,     0,     0,     0,     4,     0,     0,     0,     0,     0,
       43,    39,    40,    41,    42,     0,     6,    19,     9,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,    36,    37,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     8,     0,    22,    38,     0,     0,     0,
-      23,    32,    35,    36,    37,    34,    33,    27,    28,    29,
-      30,    24,    25,    26,    31,     0,    18,    17,     0,     0,
-      44,    16
+      23,    32,    35,    34,    33,    27,    28,    29,    30,    24,
+      25,    26,    31,     0,    18,    17,     0,     0,    44,    16
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -595,11 +601,10 @@ static const yytype_int8 yypact[] =
      -17,   -31,    -3,    -6,   -31,    85,   -31,   -31,    85,    85,
       85,    85,    85,   -13,   -31,   -16,    19,    22,    20,    47,
       72,    72,    72,    72,    72,    21,   -31,    -1,   -25,    85,
-      85,    85,    85,    85,    85,    85,    85,    85,    85,    85,
+      85,    85,   -31,   -31,    85,    85,    85,    85,    85,    85,
       85,    85,    85,   -31,    85,   -31,   -31,   -24,    24,    26,
-     116,   109,   109,    -5,    -5,   124,   124,    72,    72,    72,
-      72,   116,    -5,    -5,    -5,    27,   -31,    30,    13,    52,
-     -31,   -31
+     116,   109,   109,   124,   124,    72,    72,    72,    72,   116,
+      -5,    -5,    -5,    27,   -31,    30,    13,    52,   -31,   -31
 };
 
 /* YYPGOTO[NTERM-NUM].  */
@@ -617,10 +622,10 @@ static const yytype_uint8 yytable[] =
 {
       13,    14,     1,     2,     3,     4,     5,     9,     6,     1,
        2,     3,     4,     5,    10,     6,    42,    43,    11,    28,
-      35,    36,    37,    55,    58,    57,    59,    75,    76,    77,
-      15,    78,    39,    16,    17,    18,    19,    20,    21,    22,
-      23,    40,    41,    42,    43,    44,    45,    80,    46,    47,
-      48,    49,    50,    51,    52,    79,    81,    39,    26,    53,
+      35,    36,    37,    55,    58,    57,    59,    73,    74,    75,
+      15,    76,    39,    16,    17,    18,    19,    20,    21,    22,
+      23,    40,    41,    42,    43,    44,    45,    78,    46,    47,
+      48,    49,    50,    51,    52,    77,    79,    39,    26,    53,
        0,     0,     0,     0,     0,     0,    40,    41,    42,    43,
       44,    45,    54,    46,    47,    48,    49,    50,    51,    52,
        0,    56,    39,     0,     0,     0,     0,     0,    13,    14,
@@ -633,8 +638,8 @@ static const yytype_uint8 yytable[] =
        0,     0,     0,     0,    50,    51,    52,    29,     0,    54,
       30,    31,    32,    33,    34,     0,    54,     0,     0,     0,
        0,     0,     0,     0,    54,     0,     0,     0,     0,     0,
-       0,    60,    61,    62,    63,    64,    65,    66,    67,    68,
-      69,    70,    71,    72,    73,     0,    74
+       0,    60,    61,    62,     0,     0,    63,    64,    65,    66,
+      67,    68,    69,    70,    71,     0,    72
 };
 
 static const yytype_int8 yycheck[] =
@@ -657,7 +662,7 @@ static const yytype_int8 yycheck[] =
       -1,    -1,    -1,    -1,    30,    31,    32,    15,    -1,    50,
       18,    19,    20,    21,    22,    -1,    50,    -1,    -1,    -1,
       -1,    -1,    -1,    -1,    50,    -1,    -1,    -1,    -1,    -1,
-      -1,    39,    40,    41,    42,    43,    44,    45,    46,    47,
+      -1,    39,    40,    41,    -1,    -1,    44,    45,    46,    47,
       48,    49,    50,    51,    52,    -1,    54
 };
 
@@ -672,8 +677,7 @@ static const yytype_uint8 yystos[] =
       19,    20,    21,    22,    23,    24,    26,    27,    28,    29,
       30,    31,    32,    37,    50,     3,    34,     4,    25,    51,
       59,    59,    59,    59,    59,    59,    59,    59,    59,    59,
-      59,    59,    59,    59,    59,    51,     4,     3,     4,    25,
-      34,     4
+      59,    59,    59,    51,     4,     3,     4,    25,    34,     4
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1487,28 +1491,28 @@ yyreduce:
         case 6:
 
 /* Line 1455 of yacc.c  */
-#line 89 "pialParser.y"
+#line 96 "pialParser.y"
     {;}
     break;
 
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 91 "pialParser.y"
+#line 98 "pialParser.y"
     {;}
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 98 "pialParser.y"
+#line 106 "pialParser.y"
     {
 				if(check((yyvsp[(3) - (5)].string)))
 				{
 					printf("\n(%s) Variable  DEclared Before \n",(yyvsp[(3) - (5)].string));
 				}
 				else
-				{ 
+				{   
 					valassig ((yyvsp[(3) - (5)].string),(yyvsp[(5) - (5)].number));
 					printf("\nValue of the Variable (%s)= %d\n",(yyvsp[(3) - (5)].string),(yyvsp[(5) - (5)].number));
 				}
@@ -1518,7 +1522,7 @@ yyreduce:
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 109 "pialParser.y"
+#line 117 "pialParser.y"
     {	
                         if(check((yyvsp[(3) - (3)].string)))
 						{
@@ -1527,8 +1531,8 @@ yyreduce:
 						else
 						{
 							printf("(%s) Variable Declared\n",(yyvsp[(3) - (3)].string));
-							vari(&store[count],(yyvsp[(3) - (3)].string), count);
-							count++;
+							vari(&store[count],(yyvsp[(3) - (3)].string), 0);
+							//count++;
 						}
 			;}
     break;
@@ -1536,7 +1540,7 @@ yyreduce:
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 121 "pialParser.y"
+#line 129 "pialParser.y"
     {
 				if(check((yyvsp[(1) - (3)].string)))
 				{
@@ -1553,7 +1557,7 @@ yyreduce:
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 133 "pialParser.y"
+#line 141 "pialParser.y"
     {			if(check((yyvsp[(1) - (1)].string)))
 						{
 							printf("\nERROR:Multiple Declaration Of (%s) \n", (yyvsp[(1) - (1)].string) );
@@ -1561,8 +1565,8 @@ yyreduce:
 						else
 						{
 							printf("(%s) Variable Declared\n",(yyvsp[(1) - (1)].string));
-							vari(&store[count],(yyvsp[(1) - (1)].string), count);
-							count++;
+							vari(&store[count],(yyvsp[(1) - (1)].string), 0);
+							//count++;
 						}
 			;}
     break;
@@ -1570,25 +1574,37 @@ yyreduce:
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 147 "pialParser.y"
+#line 155 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (1)].number); 	;}
     break;
 
   case 21:
 
 /* Line 1455 of yacc.c  */
-#line 149 "pialParser.y"
-    {	int i = 1;
-						char *name = store[i].str;
-						while (name) 
+#line 157 "pialParser.y"
+    {	
+						// int i = 1;
+						// char *name = store[i].str;
+						// while (name) 
+						// {
+						// 	if (strcmp(name, $1) == 0)
+						// 	{
+						// 		$$ = (int)store[i].n;
+						// 		//printf("%s -> %d\n", $1, (int)store[i].n ) ;
+						// 		break;
+						// 	}
+						// 		name = store[++i].str;
+						// }
+
+						struct node* temp = head;
+						while(temp != NULL)
 						{
-							if (strcmp(name, (yyvsp[(1) - (1)].string)) == 0)
+							if(strcmp(temp->data.str,(yyvsp[(1) - (1)].string)) == 0)
 							{
-								(yyval.number) = (int)store[i].n;
-								//printf("%s -> %d\n", $1, (int)store[i].n ) ;
+								(yyval.number) = temp->data.n;
 								break;
 							}
-								name = store[++i].str;
+							temp = temp->next;
 						}
 					;}
     break;
@@ -1596,18 +1612,30 @@ yyreduce:
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 162 "pialParser.y"
-    {	int i = 1;
-									char *name = store[i].str;
-									while (name) 
+#line 182 "pialParser.y"
+    {	
+									// int i = 1;
+									// char *name = store[i].str;
+									// while (name) 
+									// {
+									// 	if (strcmp(name, $3) == 0)
+									// 	{
+									// 		//printf("%s -> %d\n", $3, (int)store[i].n ) ;
+									// 		valassig ($1,(int)store[i].n);
+									// 		break;
+									// 	}
+									// 	name = store[++i].str;
+									// }
+
+									struct node* temp = head;
+									while(temp != NULL)
 									{
-										if (strcmp(name, (yyvsp[(3) - (3)].string)) == 0)
+										if(strcmp(temp->data.str,(yyvsp[(3) - (3)].string)) == 0)
 										{
-											//printf("%s -> %d\n", $3, (int)store[i].n ) ;
-											valassig ((yyvsp[(1) - (3)].string),(int)store[i].n);
+											valassig ((yyvsp[(1) - (3)].string),temp->data.n);
 											break;
 										}
-										name = store[++i].str;
+										temp = temp->next;
 									}
 								;}
     break;
@@ -1615,28 +1643,28 @@ yyreduce:
   case 23:
 
 /* Line 1455 of yacc.c  */
-#line 176 "pialParser.y"
+#line 208 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) + (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 178 "pialParser.y"
+#line 210 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) - (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 180 "pialParser.y"
+#line 212 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) * (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 184 "pialParser.y"
+#line 216 "pialParser.y"
     { if((yyvsp[(3) - (3)].number)){
 												(yyval.number) = (yyvsp[(1) - (3)].number) / (yyvsp[(3) - (3)].number);
 											}
@@ -1650,35 +1678,35 @@ yyreduce:
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 192 "pialParser.y"
+#line 224 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) += (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 28:
 
 /* Line 1455 of yacc.c  */
-#line 193 "pialParser.y"
+#line 225 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) -= (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 194 "pialParser.y"
+#line 226 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) *= (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 30:
 
 /* Line 1455 of yacc.c  */
-#line 195 "pialParser.y"
+#line 227 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) /= (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 31:
 
 /* Line 1455 of yacc.c  */
-#line 197 "pialParser.y"
+#line 229 "pialParser.y"
     { if((yyvsp[(3) - (3)].number)){
 												(yyval.number) = (yyvsp[(1) - (3)].number) % (yyvsp[(3) - (3)].number);
 											}
@@ -1692,98 +1720,98 @@ yyreduce:
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 205 "pialParser.y"
+#line 237 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) == (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 206 "pialParser.y"
+#line 238 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) < (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 208 "pialParser.y"
+#line 240 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) > (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 209 "pialParser.y"
+#line 241 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) != (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 210 "pialParser.y"
-    { (yyval.number) = (yyvsp[(1) - (3)].number)++; ;}
+#line 242 "pialParser.y"
+    { (yyval.number) = (yyvsp[(1) - (2)].number)++; ;}
     break;
 
   case 37:
 
 /* Line 1455 of yacc.c  */
-#line 211 "pialParser.y"
-    { (yyval.number) = (yyvsp[(1) - (3)].number)--; ;}
+#line 243 "pialParser.y"
+    { (yyval.number) = (yyvsp[(1) - (2)].number)--; ;}
     break;
 
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 213 "pialParser.y"
+#line 245 "pialParser.y"
     { (yyval.number) = (yyvsp[(2) - (3)].number);	;}
     break;
 
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 214 "pialParser.y"
+#line 246 "pialParser.y"
     {printf("Value of Sin(%d) is %lf\n",(yyvsp[(2) - (2)].number),sin((yyvsp[(2) - (2)].number)*3.1416/180)); (yyval.number)=sin((yyvsp[(2) - (2)].number)*3.1416/180);;}
     break;
 
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 216 "pialParser.y"
+#line 248 "pialParser.y"
     {printf("Value of Cos(%d) is %lf\n",(yyvsp[(2) - (2)].number),cos((yyvsp[(2) - (2)].number)*3.1416/180)); (yyval.number)=cos((yyvsp[(2) - (2)].number)*3.1416/180);;}
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 218 "pialParser.y"
+#line 250 "pialParser.y"
     {printf("Value of Tan(%d) is %lf\n",(yyvsp[(2) - (2)].number),tan((yyvsp[(2) - (2)].number)*3.1416/180)); (yyval.number)=tan((yyvsp[(2) - (2)].number)*3.1416/180);;}
     break;
 
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 219 "pialParser.y"
+#line 251 "pialParser.y"
     {printf("Value of ln(%d) is %lf\n",(yyvsp[(2) - (2)].number),(log((yyvsp[(2) - (2)].number)))); (yyval.number)=(log((yyvsp[(2) - (2)].number)));;}
     break;
 
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 220 "pialParser.y"
+#line 252 "pialParser.y"
     {printf("Value of sqrt(%d) is %lf\n",(yyvsp[(2) - (2)].number),sqrt((yyvsp[(2) - (2)].number))); (yyval.number)=sqrt((yyvsp[(2) - (2)].number));;}
     break;
 
   case 44:
 
 /* Line 1455 of yacc.c  */
-#line 221 "pialParser.y"
+#line 253 "pialParser.y"
     {printf("Value of pow(%d,%d) is %lf\n",(yyvsp[(3) - (6)].number),(yyvsp[(5) - (6)].number),pow((yyvsp[(3) - (6)].number),(yyvsp[(5) - (6)].number))); (yyval.number)=pow((yyvsp[(3) - (6)].number),(yyvsp[(5) - (6)].number));;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1787 "pialParser.tab.c"
+#line 1815 "pialParser.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1995,38 +2023,81 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 227 "pialParser.y"
+#line 259 "pialParser.y"
 
 
 void vari(array *p, char *s, int n)
 				{
-				  p->str = s; 
-				  p->n = n; // variable number
+				//   p->str = s; 
+				//   p->n = n; // variable number
+
+				  struct node* newData = malloc(sizeof(node));
+				  newData->data.str = s;
+				  newData->data.n = n;
+				  newData->next = NULL;
+
+				  if (head == NULL)
+				  {
+				    head = newData;
+				    tail = newData;
+				  }
+				  else
+				  {
+				    tail->next = newData;
+				    tail = newData;
+				  }
+
+
+
 				}
 void valassig(char *s, int num)
 			{
-				    int i = 1;
-				    char *name = store[i].str;
-				    while (name) {
-				        if (strcmp(name, s) == 0){
-					store[i].n=num;
+				//     int i = 1;
+				//     char *name = store[i].str;
+				//     while (name) {
+				//         if (strcmp(name, s) == 0){
+				// 	store[i].n=num;
+				// 		break;
+				//             }
+				// 	name = store[++i].str;
+				// }
+
+				struct node* temp = head;
+				while(temp != NULL)
+				{
+					if(strcmp(temp->data.str,s)==0)
+					{
+						temp->data.n=num;
 						break;
-				            }
-					name = store[++i].str;
+					}
+					temp = temp->next;
 				}
+
+
 			}
 
 int check(char *key)
 			{
-			    int i = 1;
-			    char *name = store[i].str;
-			    while (name) {
-				        if (strcmp(name, key) == 0){
-						return i;
+			    // int i = 1;
+			    // char *name = store[i].str;
+			    // while (name) {
+				//         if (strcmp(name, key) == 0){
+				// 		return i;
+				// 	}
+				// 		name = store[++i].str;
+				// }
+			    // return 0;
+
+				struct node* temp = head;
+				while(temp != NULL)
+				{
+					if(strcmp(temp->data.str,key)==0)
+					{
+						return temp->data.n;
 					}
-						name = store[++i].str;
+					temp = temp->next;
 				}
-			    return 0;
+				return 0;
 			}
 
 void yyerror(char *s){

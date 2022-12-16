@@ -4,31 +4,12 @@
 	#include<math.h>
 	#include<string.h>
 	#include<stdarg.h>
+	#include "ACTION.h"
 	 
 	int yylex();
 	extern FILE *yyin,*yyout;
     void yyerror(char *s);  
-	//extern FILE *yyin,*yyout;
 	 
-	typedef struct variable {
-			char *str;
-	    	int n;
-			}array;
-	array store[1000];
-	
-	void vari (array *p, char *s, int n);
-	void valassig (char *s, int n);
-	int check(char *key);
-	int count = 1;
-	struct node {
-     	   array data;
-    struct node *next;
-    
-	}node ;
-	/* Initialize nodes */
-	struct node *head = NULL;
-	struct node *tail = NULL ;
- 
 %}
 
 %union 
@@ -104,70 +85,58 @@ declaration: TYPE id1  ;
 TYPE: INT | FLOAT | DOUBLE | STRING | CHAR | VOID ;
 
 id1 : id1 ',' VAR ASSING NUM	 {
-				if(check($3))
+				if(alreadyDeclared($3))
 				{
 					printf("\n(%s) Variable  DEclared Before \n",$3);
 				}
 				else
 				{   
-					valassig ($3,$5);
+					assingToVariable ($3,$5);
 					printf("\nValue of the Variable (%s)= %d\n",$3,$5);
 				}
 		}
 	| id1 ',' VAR 	{	
-                        if(check($3))
+                        if(alreadyDeclared($3))
 						{
 							printf("\nERROR:Multiple Declaration Of (%s) \n", $3 );
 						}
 						else
 						{
 							printf("(%s) Variable Declared\n",$3);
-							vari(&store[count],$3, 0);
-							//count++;
+							newVariable($3, 0);
+							
 						}
 			}
 	| VAR ASSING NUM	 {
-				if(check($1))
+				if(alreadyDeclared($1))
 				{
 					printf("\n(%s) Variable  DEclared Before \n",$1);
 				}
 				else
 				{ 
-					valassig ($1,$3);
+					assingToVariable ($1,$3);
 					printf("\nValue of the Variable (%s)= %d\n",$1,$3);
 				}
 		}
  
-	| VAR 	{			if(check($1))
+	| VAR 	{			if(alreadyDeclared($1))
 						{
 							printf("\nERROR:Multiple Declaration Of (%s) \n", $1 );
 						}
 						else
 						{
 							printf("(%s) Variable Declared\n",$1);
-							vari(&store[count],$1, 0);
-							//count++;
+							newVariable($1, 0);
+							//++;
 						}
 			} 
 ;
 
+ 
 
 expression: NUM	{ $$ = $1; 	}
 
-			| VAR 	{	
-						// int i = 1;
-						// char *name = store[i].str;
-						// while (name) 
-						// {
-						// 	if (strcmp(name, $1) == 0)
-						// 	{
-						// 		$$ = (int)store[i].n;
-						// 		//printf("%s -> %d\n", $1, (int)store[i].n ) ;
-						// 		break;
-						// 	}
-						// 		name = store[++i].str;
-						// }
-
+			| VAR 	{	 
 						struct node* temp = head;
 						while(temp != NULL)
 						{
@@ -180,25 +149,13 @@ expression: NUM	{ $$ = $1; 	}
 						}
 					}
 			| VAR ASSING VAR 	{	
-									// int i = 1;
-									// char *name = store[i].str;
-									// while (name) 
-									// {
-									// 	if (strcmp(name, $3) == 0)
-									// 	{
-									// 		//printf("%s -> %d\n", $3, (int)store[i].n ) ;
-									// 		valassig ($1,(int)store[i].n);
-									// 		break;
-									// 	}
-									// 	name = store[++i].str;
-									// }
-
+									 
 									struct node* temp = head;
 									while(temp != NULL)
 									{
 										if(strcmp(temp->data.str,$3) == 0)
 										{
-											valassig ($1,temp->data.n);
+											assingToVariable ($1,temp->data.n);
 											break;
 										}
 										temp = temp->next;
@@ -257,80 +214,6 @@ expression: NUM	{ $$ = $1; 	}
 
 
 %%
-
-void vari(array *p, char *s, int n)
-				{
-				//   p->str = s; 
-				//   p->n = n; // variable number
-
-				  struct node* newData = malloc(sizeof(node));
-				  newData->data.str = s;
-				  newData->data.n = n;
-				  newData->next = NULL;
-
-				  if (head == NULL)
-				  {
-				    head = newData;
-				    tail = newData;
-				  }
-				  else
-				  {
-				    tail->next = newData;
-				    tail = newData;
-				  }
-
-
-
-				}
-void valassig(char *s, int num)
-			{
-				//     int i = 1;
-				//     char *name = store[i].str;
-				//     while (name) {
-				//         if (strcmp(name, s) == 0){
-				// 	store[i].n=num;
-				// 		break;
-				//             }
-				// 	name = store[++i].str;
-				// }
-
-				struct node* temp = head;
-				while(temp != NULL)
-				{
-					if(strcmp(temp->data.str,s)==0)
-					{
-						temp->data.n=num;
-						break;
-					}
-					temp = temp->next;
-				}
-
-
-			}
-
-int check(char *key)
-			{
-			    // int i = 1;
-			    // char *name = store[i].str;
-			    // while (name) {
-				//         if (strcmp(name, key) == 0){
-				// 		return i;
-				// 	}
-				// 		name = store[++i].str;
-				// }
-			    // return 0;
-
-				struct node* temp = head;
-				while(temp != NULL)
-				{
-					if(strcmp(temp->data.str,key)==0)
-					{
-						return temp->data.n;
-					}
-					temp = temp->next;
-				}
-				return 0;
-			}
 
 void yyerror(char *s){
 	printf( "%s\n", s);

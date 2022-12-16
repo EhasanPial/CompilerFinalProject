@@ -75,35 +75,16 @@
 	#include<math.h>
 	#include<string.h>
 	#include<stdarg.h>
+	#include "ACTION.h"
 	 
 	int yylex();
 	extern FILE *yyin,*yyout;
     void yyerror(char *s);  
-	//extern FILE *yyin,*yyout;
 	 
-	typedef struct variable {
-			char *str;
-	    	int n;
-			}array;
-	array store[1000];
-	
-	void vari (array *p, char *s, int n);
-	void valassig (char *s, int n);
-	int check(char *key);
-	int count = 1;
-	struct node {
-     	   array data;
-    struct node *next;
-    
-	}node ;
-	/* Initialize nodes */
-	struct node *head = NULL;
-	struct node *tail = NULL ;
- 
 
 
 /* Line 189 of yacc.c  */
-#line 107 "pialParser.tab.c"
+#line 88 "pialParser.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -188,7 +169,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 35 "pialParser.y"
+#line 16 "pialParser.y"
 
 	 int number;
      char *string;
@@ -196,7 +177,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 200 "pialParser.tab.c"
+#line 181 "pialParser.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -208,7 +189,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 212 "pialParser.tab.c"
+#line 193 "pialParser.tab.c"
 
 #ifdef short
 # undef short
@@ -512,11 +493,11 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    91,    91,    91,    92,    92,    96,    97,    98,   101,
-     104,   104,   104,   104,   104,   104,   106,   117,   129,   141,
-     155,   157,   182,   208,   210,   212,   216,   224,   225,   226,
-     227,   229,   237,   238,   240,   241,   242,   243,   245,   246,
-     248,   250,   251,   252,   253
+       0,    72,    72,    72,    73,    73,    77,    78,    79,    82,
+      85,    85,    85,    85,    85,    85,    87,    98,   110,   122,
+     137,   139,   151,   165,   167,   169,   173,   181,   182,   183,
+     184,   186,   194,   195,   197,   198,   199,   200,   202,   203,
+     205,   207,   208,   209,   210
 };
 #endif
 
@@ -1491,29 +1472,29 @@ yyreduce:
         case 6:
 
 /* Line 1455 of yacc.c  */
-#line 96 "pialParser.y"
+#line 77 "pialParser.y"
     {;}
     break;
 
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 98 "pialParser.y"
+#line 79 "pialParser.y"
     {;}
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 106 "pialParser.y"
+#line 87 "pialParser.y"
     {
-				if(check((yyvsp[(3) - (5)].string)))
+				if(alreadyDeclared((yyvsp[(3) - (5)].string)))
 				{
 					printf("\n(%s) Variable  DEclared Before \n",(yyvsp[(3) - (5)].string));
 				}
 				else
 				{   
-					valassig ((yyvsp[(3) - (5)].string),(yyvsp[(5) - (5)].number));
+					assingToVariable ((yyvsp[(3) - (5)].string),(yyvsp[(5) - (5)].number));
 					printf("\nValue of the Variable (%s)= %d\n",(yyvsp[(3) - (5)].string),(yyvsp[(5) - (5)].number));
 				}
 		;}
@@ -1522,17 +1503,17 @@ yyreduce:
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 117 "pialParser.y"
+#line 98 "pialParser.y"
     {	
-                        if(check((yyvsp[(3) - (3)].string)))
+                        if(alreadyDeclared((yyvsp[(3) - (3)].string)))
 						{
 							printf("\nERROR:Multiple Declaration Of (%s) \n", (yyvsp[(3) - (3)].string) );
 						}
 						else
 						{
 							printf("(%s) Variable Declared\n",(yyvsp[(3) - (3)].string));
-							vari(&store[count],(yyvsp[(3) - (3)].string), 0);
-							//count++;
+							newVariable((yyvsp[(3) - (3)].string), 0);
+							
 						}
 			;}
     break;
@@ -1540,15 +1521,15 @@ yyreduce:
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 129 "pialParser.y"
+#line 110 "pialParser.y"
     {
-				if(check((yyvsp[(1) - (3)].string)))
+				if(alreadyDeclared((yyvsp[(1) - (3)].string)))
 				{
 					printf("\n(%s) Variable  DEclared Before \n",(yyvsp[(1) - (3)].string));
 				}
 				else
 				{ 
-					valassig ((yyvsp[(1) - (3)].string),(yyvsp[(3) - (3)].number));
+					assingToVariable ((yyvsp[(1) - (3)].string),(yyvsp[(3) - (3)].number));
 					printf("\nValue of the Variable (%s)= %d\n",(yyvsp[(1) - (3)].string),(yyvsp[(3) - (3)].number));
 				}
 		;}
@@ -1557,16 +1538,16 @@ yyreduce:
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 141 "pialParser.y"
-    {			if(check((yyvsp[(1) - (1)].string)))
+#line 122 "pialParser.y"
+    {			if(alreadyDeclared((yyvsp[(1) - (1)].string)))
 						{
 							printf("\nERROR:Multiple Declaration Of (%s) \n", (yyvsp[(1) - (1)].string) );
 						}
 						else
 						{
 							printf("(%s) Variable Declared\n",(yyvsp[(1) - (1)].string));
-							vari(&store[count],(yyvsp[(1) - (1)].string), 0);
-							//count++;
+							newVariable((yyvsp[(1) - (1)].string), 0);
+							//++;
 						}
 			;}
     break;
@@ -1574,28 +1555,15 @@ yyreduce:
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 155 "pialParser.y"
+#line 137 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (1)].number); 	;}
     break;
 
   case 21:
 
 /* Line 1455 of yacc.c  */
-#line 157 "pialParser.y"
-    {	
-						// int i = 1;
-						// char *name = store[i].str;
-						// while (name) 
-						// {
-						// 	if (strcmp(name, $1) == 0)
-						// 	{
-						// 		$$ = (int)store[i].n;
-						// 		//printf("%s -> %d\n", $1, (int)store[i].n ) ;
-						// 		break;
-						// 	}
-						// 		name = store[++i].str;
-						// }
-
+#line 139 "pialParser.y"
+    {	 
 						struct node* temp = head;
 						while(temp != NULL)
 						{
@@ -1612,27 +1580,15 @@ yyreduce:
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 182 "pialParser.y"
+#line 151 "pialParser.y"
     {	
-									// int i = 1;
-									// char *name = store[i].str;
-									// while (name) 
-									// {
-									// 	if (strcmp(name, $3) == 0)
-									// 	{
-									// 		//printf("%s -> %d\n", $3, (int)store[i].n ) ;
-									// 		valassig ($1,(int)store[i].n);
-									// 		break;
-									// 	}
-									// 	name = store[++i].str;
-									// }
-
+									 
 									struct node* temp = head;
 									while(temp != NULL)
 									{
 										if(strcmp(temp->data.str,(yyvsp[(3) - (3)].string)) == 0)
 										{
-											valassig ((yyvsp[(1) - (3)].string),temp->data.n);
+											assingToVariable ((yyvsp[(1) - (3)].string),temp->data.n);
 											break;
 										}
 										temp = temp->next;
@@ -1643,28 +1599,28 @@ yyreduce:
   case 23:
 
 /* Line 1455 of yacc.c  */
-#line 208 "pialParser.y"
+#line 165 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) + (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 210 "pialParser.y"
+#line 167 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) - (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 212 "pialParser.y"
+#line 169 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) * (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 216 "pialParser.y"
+#line 173 "pialParser.y"
     { if((yyvsp[(3) - (3)].number)){
 												(yyval.number) = (yyvsp[(1) - (3)].number) / (yyvsp[(3) - (3)].number);
 											}
@@ -1678,35 +1634,35 @@ yyreduce:
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 224 "pialParser.y"
+#line 181 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) += (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 28:
 
 /* Line 1455 of yacc.c  */
-#line 225 "pialParser.y"
+#line 182 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) -= (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 226 "pialParser.y"
+#line 183 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) *= (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 30:
 
 /* Line 1455 of yacc.c  */
-#line 227 "pialParser.y"
+#line 184 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) /= (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 31:
 
 /* Line 1455 of yacc.c  */
-#line 229 "pialParser.y"
+#line 186 "pialParser.y"
     { if((yyvsp[(3) - (3)].number)){
 												(yyval.number) = (yyvsp[(1) - (3)].number) % (yyvsp[(3) - (3)].number);
 											}
@@ -1720,98 +1676,98 @@ yyreduce:
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 237 "pialParser.y"
+#line 194 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) == (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 238 "pialParser.y"
+#line 195 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) < (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 240 "pialParser.y"
+#line 197 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) > (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 241 "pialParser.y"
+#line 198 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (3)].number) != (yyvsp[(3) - (3)].number); ;}
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 242 "pialParser.y"
+#line 199 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (2)].number)++; ;}
     break;
 
   case 37:
 
 /* Line 1455 of yacc.c  */
-#line 243 "pialParser.y"
+#line 200 "pialParser.y"
     { (yyval.number) = (yyvsp[(1) - (2)].number)--; ;}
     break;
 
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 245 "pialParser.y"
+#line 202 "pialParser.y"
     { (yyval.number) = (yyvsp[(2) - (3)].number);	;}
     break;
 
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 246 "pialParser.y"
+#line 203 "pialParser.y"
     {printf("Value of Sin(%d) is %lf\n",(yyvsp[(2) - (2)].number),sin((yyvsp[(2) - (2)].number)*3.1416/180)); (yyval.number)=sin((yyvsp[(2) - (2)].number)*3.1416/180);;}
     break;
 
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 248 "pialParser.y"
+#line 205 "pialParser.y"
     {printf("Value of Cos(%d) is %lf\n",(yyvsp[(2) - (2)].number),cos((yyvsp[(2) - (2)].number)*3.1416/180)); (yyval.number)=cos((yyvsp[(2) - (2)].number)*3.1416/180);;}
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 250 "pialParser.y"
+#line 207 "pialParser.y"
     {printf("Value of Tan(%d) is %lf\n",(yyvsp[(2) - (2)].number),tan((yyvsp[(2) - (2)].number)*3.1416/180)); (yyval.number)=tan((yyvsp[(2) - (2)].number)*3.1416/180);;}
     break;
 
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 251 "pialParser.y"
+#line 208 "pialParser.y"
     {printf("Value of ln(%d) is %lf\n",(yyvsp[(2) - (2)].number),(log((yyvsp[(2) - (2)].number)))); (yyval.number)=(log((yyvsp[(2) - (2)].number)));;}
     break;
 
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 252 "pialParser.y"
+#line 209 "pialParser.y"
     {printf("Value of sqrt(%d) is %lf\n",(yyvsp[(2) - (2)].number),sqrt((yyvsp[(2) - (2)].number))); (yyval.number)=sqrt((yyvsp[(2) - (2)].number));;}
     break;
 
   case 44:
 
 /* Line 1455 of yacc.c  */
-#line 253 "pialParser.y"
+#line 210 "pialParser.y"
     {printf("Value of pow(%d,%d) is %lf\n",(yyvsp[(3) - (6)].number),(yyvsp[(5) - (6)].number),pow((yyvsp[(3) - (6)].number),(yyvsp[(5) - (6)].number))); (yyval.number)=pow((yyvsp[(3) - (6)].number),(yyvsp[(5) - (6)].number));;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1815 "pialParser.tab.c"
+#line 1771 "pialParser.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2023,82 +1979,8 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 259 "pialParser.y"
+#line 216 "pialParser.y"
 
-
-void vari(array *p, char *s, int n)
-				{
-				//   p->str = s; 
-				//   p->n = n; // variable number
-
-				  struct node* newData = malloc(sizeof(node));
-				  newData->data.str = s;
-				  newData->data.n = n;
-				  newData->next = NULL;
-
-				  if (head == NULL)
-				  {
-				    head = newData;
-				    tail = newData;
-				  }
-				  else
-				  {
-				    tail->next = newData;
-				    tail = newData;
-				  }
-
-
-
-				}
-void valassig(char *s, int num)
-			{
-				//     int i = 1;
-				//     char *name = store[i].str;
-				//     while (name) {
-				//         if (strcmp(name, s) == 0){
-				// 	store[i].n=num;
-				// 		break;
-				//             }
-				// 	name = store[++i].str;
-				// }
-
-				struct node* temp = head;
-				while(temp != NULL)
-				{
-					if(strcmp(temp->data.str,s)==0)
-					{
-						temp->data.n=num;
-						break;
-					}
-					temp = temp->next;
-				}
-
-
-			}
-
-int check(char *key)
-			{
-			    // int i = 1;
-			    // char *name = store[i].str;
-			    // while (name) {
-				//         if (strcmp(name, key) == 0){
-				// 		return i;
-				// 	}
-				// 		name = store[++i].str;
-				// }
-			    // return 0;
-
-				struct node* temp = head;
-				while(temp != NULL)
-				{
-					if(strcmp(temp->data.str,key)==0)
-					{
-						return temp->data.n;
-					}
-					temp = temp->next;
-				}
-				return 0;
-			}
 
 void yyerror(char *s){
 	printf( "%s\n", s);
